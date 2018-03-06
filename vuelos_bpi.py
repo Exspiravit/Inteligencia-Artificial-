@@ -4,9 +4,9 @@ from arbol import Nodo
 def DFS_prof_iter(nodo, solucion):
     for limite in range(0,100):
         visitados   = []
-        sol         = buscar_solucion_DFS_Rec(nodo,solucion,visitados,limite):
-            if sol != None:
-                return sol
+        sol         = buscar_solucion_DFS_Rec(nodo,solucion,visitados,limite)
+        if sol != None:
+            return sol
 
 def buscar_solucion_DFS_Rec(nodo,solucion,visitados,limite):
     if limite > 0:
@@ -32,10 +32,32 @@ def buscar_solucion_DFS_Rec(nodo,solucion,visitados,limite):
                         return sol
     return None
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     conexiones = {
             'Malaga'    :   {'Salamanca','Madrid','Barcelona'},
             'Sevilla'   :   {'Santiago','Madrid'},
             'Granada'   :   {'Valencia'},
             'Valencia'  :   {'Barcelona'},
-            'Madrid'    :   {}
+            'Madrid'    :   {'Salamanca','Sevilla', 'Malaga', 'Barcelona', 'Santander'},
+            'Salamanca' :   {'Malaga', 'Madrid'},
+            'Santiago'  :   {'Sevilla', 'Santander', 'Barcelona'},
+            'Santander' :   {'Santiago', 'Madrid'},
+            'Zaragoza'  :   {'Barcelona'},
+            'Barcelona' :   {'Zaragoza', 'Santiago', 'Madrid', 'Malaga', 'Valencia'}
+            }
+    estado_inicial  =   'Malaga'
+    solucion        =   'Santiago'
+    nodo_inicial    =   Nodo(estado_inicial)
+    nodo            =   DFS_prof_iter(nodo_inicial,solucion)
+
+    #mostrar resultado
+    if nodo != None:
+        resultado = []
+        while nodo.get_padre() != None:
+            resultado.append(nodo.get_datos())
+            nodo = nodo.get_padre()
+        resultado.append(estado_inicial)
+        resultado.reverse()
+        print(resultado)
+    else:
+        print("solucion no encontrada")
